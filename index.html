@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>KKO.com</title>
+
+<!-- Security headers set via meta tag. NOTE: meta tags can't cover everything —
+     directives like frame-ancestors, X-Frame-Options, and X-Content-Type-Options
+     only work as real HTTP response headers, not meta tags. See README.md for
+     the equivalent headers to set at your hosting provider when you deploy. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <main>
+
+    <!-- ===================== LOGIN ===================== -->
+    <section id="screen-login" class="screen active">
+      <div class="card">
+        <div class="waveform idle" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <p class="eyebrow">KKO.com</p>
+        <h1>เข้าสู่ระบบ</h1>
+        <p class="subtitle">ลงชื่อเข้าใช้ด้วยบัญชี Google เพื่อเริ่มใช้งานเครื่องมือแปลงไฟล์</p>
+
+        <button class="google-btn" id="googleLoginBtn">
+          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+            <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+            <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/>
+            <path fill="#FBBC05" d="M3.964 10.706A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.038l3.007-2.332z"/>
+            <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.962L3.964 7.294C4.672 5.167 6.656 3.58 9 3.58z"/>
+          </svg>
+          <span>ลงชื่อเข้าใช้ด้วย Google</span>
+        </button>
+
+        <div class="auth-loading" id="authLoading">
+          <div class="waveform waveform-mini" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          กำลังเข้าสู่ระบบ...
+        </div>
+
+        <p class="security-note">แอปนี้เก็บสถานะการเข้าสู่ระบบไว้ในเครื่องของคุณเท่านั้น ไม่ส่งข้อมูลออกไปที่เซิร์ฟเวอร์ภายนอก</p>
+      </div>
+    </section>
+
+    <!-- ===================== MENU ===================== -->
+    <section id="screen-menu" class="screen">
+      <div class="menu-wrap">
+        <div class="menu-topbar">
+          <p class="wordmark">KKO<span>.com</span></p>
+          <div class="user-chip">
+            <div class="user-avatar" id="menuAvatar">?</div>
+            <span class="user-name" id="menuUserName">ผู้ใช้</span>
+            <span class="sign-out" id="signOutBtn">ออกจากระบบ</span>
+          </div>
+        </div>
+
+        <div class="menu-header">
+          <h1>คลังเครื่องมือ</h1>
+          <p class="subtitle subtitle-tight">เลือกแทร็กที่ต้องการเริ่มใช้งาน</p>
+        </div>
+
+        <div class="track-grid">
+          <article class="track-card" data-status="ready" id="trackConvert" tabindex="0" role="button">
+            <span class="track-index">แทร็ก 01</span>
+            <div class="track-info">
+              <h3>แปลง MP4 → MP3</h3>
+              <p>สกัดเสียงจากวิดีโอ ใส่ชื่อเพลงและปกอัลบั้มได้ในคลิกเดียว</p>
+            </div>
+            <span class="track-status status-ready">พร้อมใช้งาน</span>
+          </article>
+
+          <article class="track-card" data-status="soon" aria-disabled="true">
+            <span class="track-index">แทร็ก 02</span>
+            <div class="track-info">
+              <h3>เครื่องมือถัดไป</h3>
+              <p>กำลังอยู่ระหว่างการเตรียมการ แล้วกลับมาเจอกันเร็ว ๆ นี้</p>
+            </div>
+            <span class="track-status status-soon">เร็ว ๆ นี้</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONVERTER ===================== -->
+    <section id="screen-converter" class="screen">
+      <div class="converter-wrap">
+        <div class="back-row" id="backToMenuBtn">← กลับเมนู</div>
+
+        <div class="card">
+          <div id="uploadSection">
+            <p class="eyebrow">แทร็ก 01</p>
+            <h1 class="tool-title">แปลง MP4 → MP3</h1>
+
+            <label class="upload-area" id="uploadAreaLabel">
+              <div class="upload-icon">🎵</div>
+              <div class="upload-label-text">แตะเพื่อเลือกไฟล์ MP4</div>
+              <input type="file" id="mp4file" accept="video/mp4">
+            </label>
+
+            <div id="videoPreviewBox">
+              <div id="fileNameDisplay">กำลังโหลด...</div>
+              <video id="videoPlayer" controls muted></video>
+            </div>
+
+            <div class="input-group">
+              <label for="songtitle" class="input-label">ชื่อเพลง (Title):</label>
+              <input type="text" id="songtitle" placeholder="ใส่ชื่อเพลงที่นี่...">
+            </div>
+
+            <div class="input-group">
+              <label class="input-label">รูปปกเพลง (Cover Art):</label>
+              <label class="cover-btn" id="coverBtnLabel">
+                🖼️ แตะเพื่อเลือกรูปปก
+                <input type="file" id="coverart" accept="image/*">
+              </label>
+            </div>
+
+            <button class="btn" id="convertBtn">แปลงเป็น MP3</button>
+          </div>
+
+          <div id="loadingSection">
+            <div class="waveform" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <h3>กำลังแปลงเสียง...</h3>
+            <p>ระบบกำลังสกัดเสียงออกจากวิดีโอ</p>
+          </div>
+
+          <div id="resultSection">
+            <div class="success-icon">✅</div>
+            <h3 class="result-title">แปลงเป็นไฟล์เสียงสำเร็จ!</h3>
+
+            <p class="preview-label">ทดลองฟังเสียง:</p>
+            <audio id="audioPlayer" controls></audio>
+
+            <button class="btn" id="downloadBtn">⬇️ ดาวน์โหลด MP3</button>
+            <button class="btn btn-outline" id="shareBtn">📤 แชร์ให้เพื่อน</button>
+
+            <p class="reconvert-link" id="reconvertLink">แปลงไฟล์อื่นต่อ</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>ติดต่อ: <a href="mailto:contact@kko.com">contact@kko.com</a></p>
+    <p>© ลิขสิทธิ์สำหรับ KKO.com</p>
+  </footer>
+</div>
+
+<script src="script.js" defer></script>
+</body>
+</html>
